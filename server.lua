@@ -1,13 +1,22 @@
-RegisterServerEvent('zcmg_debug:write_to_file')
-AddEventHandler('zcmg_debug:write_to_file', function(resourcename, text)
-  textWrite(resourcename, text)
+RegisterCommand('teste',function()
+    TriggerEvent('zcmg_debug:Send2Discord')
 end)
 
+RegisterServerEvent('zcmg_debug:Send2Discord')
+AddEventHandler('zcmg_debug:Send2Discord', function(resourcename, text)
+    local trigger
 
-function textWrite(resourcename, text)
-	log = io.open("resources/"..GetCurrentResourceName().."/logs/"..resourcename..".txt", "a++")
-	local date_time_string  = os.date('%Y-%m-%d %H:%M:%S', os.time()).. " - ".. text
-	print(date_time_string)
-	log:write(date_time_string)
-	log:close()
-end
+    AddEventHandler("gameEventTriggered", function(event, data)
+        trigger = event
+    end)
+
+    -- PerformHttpRequest(Config.Webhook,)
+
+    PerformHttpRequest(Config.Webhook, function(err, text, headers) end, "POST",
+		json.encode({ embeds = { { author = { name = " zcmg_debug", url = "https://fenixhub.dev/",
+			icon_url = "https://cdn.discordapp.com/attachments/636955559626670080/795310131704627231/logo-fen.png" },
+			title = "Anticheat Started...",
+			description = " FenixAC Started successful  \n  \nVersion: 1.0\n  \n Fenix_DevHub - " .. os.date(" %x  %X  %p"), color = 16711680, } } }),
+		{ ["Content-Type"] = "application/json" })
+
+end)

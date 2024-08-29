@@ -1,6 +1,6 @@
 RegisterServerEvent('zcmg_debug:write_to_file')
-AddEventHandler('zcmg_debug:write_to_file', function(resourcename, print)
-  textWrite(resourcename, print)
+AddEventHandler('zcmg_debug:write_to_file', function(resourcename, text)
+  textWrite(resourcename, text)
 end)
 
 
